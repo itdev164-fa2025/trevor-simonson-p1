@@ -9,12 +9,22 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+    title: `Art Gallery`,
+    description: `Student art gallery organized by unit`,
     author: `@gatsbyjs`,
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
+    contact: {
+      name: "Trevor Simonson"
+    }
   },
   plugins: [
+    {
+      resolve: "gatsby-source-contentful",
+      options: {
+        spaceId: `gjo1h6xfzm2o`,
+        accessToken: `AODLpVOyAji-9g8F1C63MgAnlZw2J8YPePCEpP6gNsc`
+      }
+    },
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
