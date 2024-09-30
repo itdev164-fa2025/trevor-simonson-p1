@@ -4,7 +4,7 @@ import Layout from '../components/layout'
 import { GatsbyImage } from 'gatsby-plugin-image';
 
 const ArtworkSubmission = ({data}) =>{
-    const { title, finalArtwork} = data.contentfulArtworkSubmission;
+    const { title, finalArtwork } = data.contentfulArtworkSubmission;
 
     return(
         <Layout>
