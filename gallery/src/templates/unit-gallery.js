@@ -14,13 +14,14 @@ const UnitGallery = ({data}) =>{
         <Layout>
             <h1>{title}</h1>
             <ul >
-                {
+                { submissions &&
                     submissions.map(edge => (
-                    <li key={edge.slug}>
-                        <Link to={`/${edge.slug}`}>                        <GatsbyImage 
-                            image={edge.finalArtwork.gatsbyImageData} alt=""
-                        /></Link>
-                    </li>
+                        
+                        <li key={edge.slug}>
+                            <Link to={`/${edge.slug}`}>                        
+                                <GatsbyImage image={edge.finalArtwork.gatsbyImageData} alt=""/>
+                            </Link>
+                        </li>
                     ))
                 }
             </ul>
