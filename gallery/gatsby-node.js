@@ -6,8 +6,9 @@ const path = require('path');
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
   
-  return new Promise((resolve, reject) =>{
-    graphql(`
+ // return new Promise((resolve, reject) =>{
+
+  const art = await graphql(`
       {
         allContentfulArtworkSubmission{
         edges{
@@ -18,6 +19,7 @@ exports.createPages = async ({ graphql, actions }) => {
       }
     }
     `).then(result =>{
+
       if(result.errors){
         reject(result.errors);
       }
@@ -29,9 +31,44 @@ exports.createPages = async ({ graphql, actions }) => {
           context: {
             slug: edge.node.slug
           },
+      }))})
+      
+    
+
+    const unit = await graphql(`
+      {
+        allContentfulUnit {
+          edges {
+            node {
+              title
+              slug
+              submissions {
+                slug
+                finalArtwork {
+                  gatsbyImageData
+                }
+              }
+            }
+          }
+        }
+      }
+    `).then(result =>{
+      if(result.errors){
+        reject(result.errors);
+      }
+
+      result.data.allContentfulUnit.edges.forEach((edge) =>
+        createPage({
+          path: edge.node.slug,
+          component: require.resolve('./src/templates/unit-gallery.js'),
+          context: {
+            slug: edge.node.slug
+          },
         })
       )
-      resolve();
+      
     })
-  })
-}
+
+
+  }
+//)}
