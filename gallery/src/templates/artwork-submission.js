@@ -3,9 +3,12 @@ import { graphql } from 'gatsby'
 import Layout from '../components/layout'
 import { GatsbyImage } from 'gatsby-plugin-image';
 
+/**************************************************************************** 
+// Tried updating exercise field ID but the app doesn't recognize the change.
+*****************************************************************************/
 const ArtworkSubmission = ({data}) =>{
 
-    const { title, finalArtwork } = data.contentfulArtworkSubmission;
+    const { title, finalArtwork, unitExercises } = data.contentfulArtworkSubmission;
 
     return(
         <Layout>
@@ -14,6 +17,20 @@ const ArtworkSubmission = ({data}) =>{
                 <GatsbyImage
                     image={finalArtwork.gatsbyImageData}
                 />
+            </div>
+            <div>
+                <ul>
+                {
+                   unitExercises.map(exercise =>(
+                        <li >
+                            <GatsbyImage image={exercise.gatsbyImageData}/>
+                        </li>
+                    )
+
+                   ) 
+                   
+                }
+                </ul>
             </div>
         </Layout>
     )
@@ -31,6 +48,12 @@ export const pageQuery = graphql`
                 placeholder: BLURRED
                 width: 600
             )} 
+            description{description}
+            unitExercises{gatsbyImageData(
+                layout: CONSTRAINED
+                placeholder: BLURRED
+                height: 400
+            )}
         }
     }
 `
