@@ -6,7 +6,7 @@ require('dotenv').config({
  */
 module.exports = {
   siteMetadata: {
-    title: `Art Gallery`,
+    title: `Drawing From Observation`,
     description: `Student art gallery organized by unit`,
     author: `@gatsbyjs`,
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
@@ -15,6 +15,7 @@ module.exports = {
     }
   },
   plugins: [
+    `gatsby-plugin-styled-components`,
     {
       resolve: "gatsby-source-contentful",
       options: {

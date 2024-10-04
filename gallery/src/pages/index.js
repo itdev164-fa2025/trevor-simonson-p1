@@ -1,25 +1,36 @@
 import * as React from "react"
 import { graphql, Link } from "gatsby"
-
+import styled from "styled-components"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import * as styles from "../components/index.module.css"
+import { GatsbyImage } from "gatsby-plugin-image"
 
+const StyledList = styled.ul`
+  list-style: none;
+`
+const StyledLink = styled(Link)`
+  display: flex;
+  color: blue;
+  font-family: fantasy;
+  font-size: xx-large;
+  text-decoration: none;
+`
 
 const IndexPage = ({data}) => (
   <Layout>
     <Seo title="Home"/>
-    <h1>Units</h1>
-    <ul className={styles.list}>
+    <h1>Unit Galleries</h1>
+    <StyledList className={styles.list}>
       {
         data.allContentfulUnit.edges.map(edge =>(
           <li key={edge.node.id}>
-            <Link to={edge.node.slug}>{edge.node.title}</Link>
+            <StyledLink to={edge.node.slug}><GatsbyImage image={edge.node.unitImage.gatsbyImageData}/></StyledLink>
           </li>
         ))
       }
-    </ul>
+    </StyledList>
   </Layout>
 )
 
@@ -41,6 +52,13 @@ export const query = graphql`
             id
             title
             slug
+            unitImage{
+              gatsbyImageData(
+                layout: CONSTRAINED
+                placeholder: BLURRED
+                height: 300
+            )
+            }
             submissions {
               slug
               finalArtwork {

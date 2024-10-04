@@ -2,36 +2,55 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import Layout from '../components/layout'
 import { GatsbyImage } from 'gatsby-plugin-image';
-
-/**************************************************************************** 
-// Tried updating exercise field ID but the app doesn't recognize the change.
-*****************************************************************************/
+import styled from "styled-components"
+import * as styles from "../components/index.module.css"
 const ArtworkSubmission = ({data}) =>{
 
-    const { title, finalArtwork, unitExercises } = data.contentfulArtworkSubmission;
+    const { title, finalArtwork, unitExercises, artistName} = data.contentfulArtworkSubmission;
+
+    const StyledDiv = styled.div`
+        margin: 2rem;
+    `; 
+    const ExerciseList = styled.ul`
+        list-style: none;
+        object-fit: contain;
+    `;
+
+    const StyledH2 = styled.h2`
+        font-size: 1.75rem;
+        font-family: monospace;
+        font-stretch: extra-expanded;
+        color: white;
+        display: block;
+        background-color: cadetblue;
+        border-radius: 25%;
+        text-align: center;
+        padding: 1rem;
+        margin: 0;
+    `
 
     return(
         <Layout>
             <h1>{title}</h1>
-            <div>
+            <StyledDiv>
                 <GatsbyImage
                     image={finalArtwork.gatsbyImageData}
                 />
-            </div>
-            <div>
-                <ul>
+                <p>By {artistName}</p>
+            </StyledDiv>
+            <StyledDiv>
+            <StyledH2>Exercises</StyledH2>
+                <ExerciseList className={styles.list}>
                 {
                    unitExercises.map(exercise =>(
                         <li >
                             <GatsbyImage image={exercise.gatsbyImageData}/>
                         </li>
-                    )
-
-                   ) 
+                    )) 
                    
                 }
-                </ul>
-            </div>
+                </ExerciseList>
+            </StyledDiv>
         </Layout>
     )
 }
@@ -43,16 +62,17 @@ export const pageQuery = graphql`
     query artworkSubmissionQuery($slug: String!){
         contentfulArtworkSubmission(slug: {eq: $slug}){
             title
+            artistName
             finalArtwork{gatsbyImageData(
-                layout: CONSTRAINED
+                layout: FULL_WIDTH
                 placeholder: BLURRED
-                width: 600
+                width: 1200
             )} 
             description{description}
             unitExercises{gatsbyImageData(
                 layout: CONSTRAINED
                 placeholder: BLURRED
-                height: 400
+                width: 400
             )}
         }
     }
