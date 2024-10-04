@@ -17,6 +17,25 @@ const StyledLink = styled(Link)`
   font-size: xx-large;
   text-decoration: none;
 `
+const NoSubItem = styled.li`
+div{
+    position: relative;
+    width: 300px;
+    height: 300px;}
+.blur{
+    filter: blur(5px);
+    position: absolute;
+}
+.overlay{
+  color: #efefef;
+  font-size: x-large;
+  font-weight: bold;
+  position: absolute;
+  text-align: center;
+  width: 300px;
+  height: 300px;
+  }
+`;
 
 const IndexPage = ({data}) => (
   <Layout>
@@ -24,11 +43,30 @@ const IndexPage = ({data}) => (
     <h1>Unit Galleries</h1>
     <StyledList className={styles.list}>
       {
-        data.allContentfulUnit.edges.map(edge =>(
-          <li key={edge.node.id}>
-            <StyledLink to={edge.node.slug}><GatsbyImage image={edge.node.unitImage.gatsbyImageData}/></StyledLink>
-          </li>
-        ))
+        
+        data.allContentfulUnit.edges.map(edge =>{
+          console.log(edge.node.submissions)
+          // If unit has submission create a link to the unit gallery
+          if(edge.node.submissions){
+            return(
+              <li key={edge.node.id}>
+                <StyledLink to={edge.node.slug}><GatsbyImage image={edge.node.unitImage.gatsbyImageData}/></StyledLink>
+              </li>
+            )
+          }
+          else{
+            return(
+              <NoSubItem key={edge.node.id}>
+                <div>
+                  <span class="blur">
+                    <GatsbyImage image={edge.node.unitImage.gatsbyImageData}/>
+                  </span>
+                  <span class="overlay">NO SUBMISSIONS</span>
+                </div>
+              </NoSubItem>
+            )
+          }
+        })
       }
     </StyledList>
   </Layout>
