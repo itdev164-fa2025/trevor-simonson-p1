@@ -4,9 +4,31 @@ import Layout from '../components/layout'
 import { GatsbyImage } from 'gatsby-plugin-image';
 import styled from "styled-components"
 import * as styles from "../components/index.module.css"
-const ArtworkSubmission = ({data}) =>{
+import { Link } from "gatsby"
 
-    const { title, finalArtwork, unitExercises, artistName} = data.contentfulArtworkSubmission;
+    const HeadDiv = styled.div`
+        justify-content: space-between;
+        display: flex;
+        align-items: center;
+        margin: 0;
+    `;
+
+    const BackButton = styled.button`
+        font-size: 1.15rem;
+        font-weight: bold;
+        background: transparent;
+        border-radius: 3px;
+        border: 4px solid cadetblue;
+        color: '#BF4F74';
+        margin: 0 1em;
+        padding: 0.5em 1em;
+        &:hover{
+            translate: -.5px -.5px;
+        }
+        &:hover:active{
+            translate: 1px 1px;
+        }
+    `;
 
     const StyledDiv = styled.div`
         margin: 2rem;
@@ -23,15 +45,27 @@ const ArtworkSubmission = ({data}) =>{
         color: white;
         display: block;
         background-color: cadetblue;
-        border-radius: 25%;
+
         text-align: center;
         padding: 1rem;
         margin: 0;
     `
+const ArtworkSubmission = ({data}) =>{
 
+    const { title, finalArtwork, unitExercises, artistName, unit} = data.contentfulArtworkSubmission;
+
+
+    console.log();
+    // ${unit[0].slug} 
     return(
         <Layout>
-            <h1>{title}</h1>
+            <HeadDiv>
+                <h1>{title}</h1>
+                <Link to={`/${unit.slug}`}>                       
+                    <BackButton>Back to Gallery</BackButton>
+                </Link>
+            </HeadDiv>
+            
             <StyledDiv>
                 <GatsbyImage
                     image={finalArtwork.gatsbyImageData}
@@ -39,7 +73,7 @@ const ArtworkSubmission = ({data}) =>{
                 <p>By {artistName}</p>
             </StyledDiv>
             <StyledDiv>
-            <StyledH2>Exercises</StyledH2>
+            <StyledH2>Unit Exercises</StyledH2>
                 <ExerciseList className={styles.list}>
                 {
                    unitExercises.map(exercise =>(
@@ -63,6 +97,7 @@ export const pageQuery = graphql`
         contentfulArtworkSubmission(slug: {eq: $slug}){
             title
             artistName
+            unit{slug}
             finalArtwork{gatsbyImageData(
                 layout: FULL_WIDTH
                 placeholder: BLURRED
