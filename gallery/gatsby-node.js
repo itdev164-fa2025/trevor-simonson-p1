@@ -35,39 +35,39 @@ exports.createPages = async ({ graphql, actions }) => {
       
     
 
-    const unit = await graphql(`
-      {
-        allContentfulUnit {
-          edges {
-            node {
-              title
+  const unit = await graphql(`
+    {
+      allContentfulUnit {
+        edges {
+          node {
+            title
+            slug
+            submissions {
               slug
-              submissions {
-                slug
-                finalArtwork {
-                  gatsbyImageData
-                }
+              finalArtwork {
+                gatsbyImageData
               }
             }
           }
         }
       }
-    `).then(result =>{
-      if(result.errors){
-        reject(result.errors);
-      }
+    }
+  `).then(result =>{
+    if(result.errors){
+      reject(result.errors);
+    }
 
-      result.data.allContentfulUnit.edges.forEach((edge) =>
-        createPage({
-          path: edge.node.slug,
-          component: require.resolve('./src/templates/unit-gallery.js'),
-          context: {
-            slug: edge.node.slug
-          },
-        })
-      )
-      
-    })
+    result.data.allContentfulUnit.edges.forEach((edge) =>
+      createPage({
+        path: edge.node.slug,
+        component: require.resolve('./src/templates/unit-gallery.js'),
+        context: {
+          slug: edge.node.slug
+        },
+      })
+    )
+    
+  })
 
 
   }

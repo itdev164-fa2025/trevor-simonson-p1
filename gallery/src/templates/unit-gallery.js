@@ -3,7 +3,6 @@ import { graphql } from 'gatsby'
 import Layout from '../components/layout'
 import { GatsbyImage } from 'gatsby-plugin-image';
 import { Link } from "gatsby"
-import Seo from "../components/seo"
 import * as styles from "../components/index.module.css"
 import styled from 'styled-components';
 
@@ -33,6 +32,7 @@ const BackButton = styled.button`
 `;
 
 const GalleryList = styled.div`
+    width: 1500;
     list-style: none;
     display: grid;
     grid-template-columns: 300px 300px 300px;
@@ -43,7 +43,7 @@ const UnitGallery = ({data}) =>{
 
 
 
-    const { title, submissions, slug } = data.contentfulUnit;
+    const { title, submissions} = data.contentfulUnit;
     console.log(data);
     console.log(submissions);
     return(
@@ -59,9 +59,11 @@ const UnitGallery = ({data}) =>{
                     submissions.map(edge => (
                         
                         <div key={edge.slug}>
+                            <h3>{edge.title}</h3>
                             <Link to={`/${edge.slug}`}>                        
                                 <GatsbyImage image={edge.finalArtwork.gatsbyImageData} alt=""/>
                             </Link>
+                            {edge.artistName && <p>by {edge.artistName}</p>}
                         </div>
                     ))
                 }
@@ -80,6 +82,8 @@ export const pageQuery = graphql`
             slug
             submissions{
                 slug
+                title
+                artistName
                 finalArtwork{gatsbyImageData(
                 layout: CONSTRAINED
                 placeholder: BLURRED
