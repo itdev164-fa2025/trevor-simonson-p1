@@ -32,6 +32,7 @@ div{
   font-weight: bold;
   position: absolute;
   text-align: center;
+  transform: translateY(50%);
   width: 300px;
   height: 300px;
   }

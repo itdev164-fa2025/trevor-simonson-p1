@@ -75,7 +75,7 @@ const ArtworkSubmission = ({data}) =>{
             <StyledDiv>
             <StyledH2>Unit Exercises</StyledH2>
                 <ExerciseList className={styles.list}>
-                {
+                { unitExercises &&
                    unitExercises.map(exercise =>(
                         <li >
                             <GatsbyImage image={exercise.gatsbyImageData}/>

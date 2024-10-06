@@ -7,37 +7,44 @@ import Seo from "../components/seo"
 import * as styles from "../components/index.module.css"
 import styled from 'styled-components';
 
-    const HeadDiv = styled.div`
-        justify-content: space-between;
-        display: flex;
-        align-items: center;
-        margin: 0;
-    `;
+const HeadDiv = styled.div`
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    width: 1000px;
+`;
 
-    const BackButton = styled.button`
-        font-size: 1.15rem;
-        font-weight: bold;
-        background: transparent;
-        border-radius: 3px;
-        border: 4px solid cadetblue;
-        color: '#BF4F74';
-        margin: 0 1em;
-        padding: 0.5em 1em;
-        &:hover{
-            translate: -.5px -.5px;
-        }
-        &:hover:active{
-            translate: 1px 1px;
-        }
-    `;
+const BackButton = styled.button`
+    font-size: 1.15rem;
+    font-weight: bold;
+    background: transparent;
+    border-radius: 3px;
+    border: 4px solid cadetblue;
+    color: '#BF4F74';
+    margin: 0 1em;
+    padding: 0.5em 1em;
+    &:hover{
+        translate: -.5px -.5px;
+    }
+    &:hover:active{
+        translate: 1px 1px;
+    }
+`;
 
+const GalleryList = styled.div`
+    list-style: none;
+    display: grid;
+    grid-template-columns: 300px 300px 300px;
+
+
+`
 const UnitGallery = ({data}) =>{
-    const GalleryList = styled.ul`
-        list-style: none;
-    `
+
 
 
     const { title, submissions, slug } = data.contentfulUnit;
+    console.log(data);
     console.log(submissions);
     return(
         <Layout>
@@ -51,11 +58,11 @@ const UnitGallery = ({data}) =>{
                 { submissions &&
                     submissions.map(edge => (
                         
-                        <li key={edge.slug}>
+                        <div key={edge.slug}>
                             <Link to={`/${edge.slug}`}>                        
                                 <GatsbyImage image={edge.finalArtwork.gatsbyImageData} alt=""/>
                             </Link>
-                        </li>
+                        </div>
                     ))
                 }
             </GalleryList>
@@ -77,7 +84,6 @@ export const pageQuery = graphql`
                 layout: CONSTRAINED
                 placeholder: BLURRED
                 width: 300
-                
                 )} 
             }
         }
